@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单组件</title>
+    <script src="vue.js"></script>
+    <style>
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s
+        }
+        .fade-enter, .fade-leave-to {
+            opacity: 0
+        }
+        ul,li,div,body,html,h3{
+            margin:0;
+            padding:0;
+        }
+        .menu{
+            width:200px;
+            padding:10px;
+            background: #f5f5f5;
+        }
+        .ul{
+            width:200px;
+
+        }
+        h3{
+            width:100%;
+            padding:20px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #ddd;
+        }
+        li{
+            width:100%;
+            height:40px;
+            line-height: 40px;
+            font-size: 15px;
+            box-sizing: border-box;
+            padding-left:50px;
+        }
+    </style>
+</head>
+<body>
+<div class="menu">
+    <custom-menu v-for="item in arr" v-bind:todo="item" v-bind:key="item.title">
+    </custom-menu>
+</div>
+    <!--<div class="menu">
+        <ul v-for="item in arr">
+            <h3 @click="shows(item)">{{item.title}}</h3>
+            <transition name="fade" v-for="items in item.con">
+                <li  v-if="item.show">{{items}}</li>
+            </transition>
+        </ul>
+    </div>-->
+</body>
+</html>
+<script>
+    Vue.component("custom-menu",{
+        props:[
+            "todo",
+        ],
+        template:"<ul><h3 @click='shows(todo)'>{{todo.title}}</h3><transition name='fade' v-for='items in todo.con'><li v-if='todo.show'>{{items}}</li></transition></ul>",
+        methods:{
+            shows(item){
+                item.show=!item.show;
+            }
+        }
+    })
+    new Vue({
+        el:".menu",
+        data:{
+    arr:[
+        {"title":"一级","con":{"1":"下拉1","2":"下拉2"},"show": true},
+        {"title":"二级","con":{"1":"下拉1","2":"下拉2"},"show": true},
+        {"title":"三级","con":{"1":"下拉1","2":"下拉2"},"show": true}
+
+    ],
+
+        },
+        methods:{
+            shows(item){
+                item.show=!item.show;
+            }
+        }
+    })
+</script>
